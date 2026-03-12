@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 [RequireComponent(typeof(BallController))]
 public class BallInput : MonoBehaviour
 {
-    public InputActionAsset InputActions;
+    public InputSystem inputActions;
 
-    private InputAction m_moveAction;
-    private InputAction m_jumpAction;
     BallController controller;
     private void Start()
     {
         controller = GetComponent<BallController>();
+        inputActions = new InputSystem();
+        inputActions.Player.Enable();
     }
     void Update()
     {
-
+        controller.Move(inputActions.Player.Move.ReadValue<Vector2>());
+        if (inputActions.Player.Jump.WasPressedThisFrame())
+        {
+            controller.Jump();
+        }
     }
 }
