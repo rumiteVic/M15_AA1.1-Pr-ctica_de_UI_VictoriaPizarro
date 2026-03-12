@@ -29,7 +29,6 @@ public class JoystickVirtual : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
         Vector3 dir = joystick.position - joystickParent.position;
         float distance = dir.magnitude;
 
-        
 
         if (distance > maxRadius)
         {
@@ -42,7 +41,6 @@ public class JoystickVirtual : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
     public void OnEndDrag(PointerEventData data)
     {
-        Debug.Log(data.position);
         joystick.localPosition = Vector3.zero;
         joystickGhost.localPosition = Vector3.zero;
     }
