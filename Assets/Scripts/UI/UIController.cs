@@ -2,25 +2,8 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void DeleteObject(GameObject obj)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void DeleteObject()
-    {
-        Destroy(gameObject);
-    }
-
-    public void RecolocateJoystick()
-    {
-
+        Destroy(obj);
     }
 }
