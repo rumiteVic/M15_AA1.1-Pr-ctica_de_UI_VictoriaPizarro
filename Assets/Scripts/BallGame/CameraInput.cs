@@ -9,6 +9,9 @@ public class CameraInput : MonoBehaviour
 {
     public InputSystem inputActions;
     CameraController controller;
+
+    Vector2 look;
+    float speed = 0.3f;
     void Start()
     {
         controller = GetComponent<CameraController>();
@@ -19,6 +22,7 @@ public class CameraInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        controller.Rotate(inputActions.Player.Look.GetControlMagnitude());
+        Vector2 look = inputActions.Player.Look.ReadValue<Vector2>();
+        controller.Rotate(look.x * speed);
     }
 }

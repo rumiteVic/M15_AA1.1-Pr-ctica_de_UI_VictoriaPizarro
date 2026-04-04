@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class UI_Canvas : MonoBehaviour, IDragHandler, IEndDragHandler
+public class UI_Canvas : MonoBehaviour
 {
 
     public GameObject menu;
@@ -8,16 +8,16 @@ public class UI_Canvas : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public Animator animator;
 
-    public RectTransform menuW;
-    public float minWidth = 200f;
-    public float maxWidth = 600f;
-    float newWidth = 0f;
+    public GameObject barra;
+    bool isOpen = false;
+    public GameObject[] buttons;
+    public int index = 0;
+    int maxButtons;
 
-    public Vector2 barra = new Vector2(52f, 3f);
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        newWidth = menu.sizeDelta.x;
+        maxButtons = buttons.Length;
     }
 
     public void ShowMenu(){
@@ -29,26 +29,25 @@ public class UI_Canvas : MonoBehaviour, IDragHandler, IEndDragHandler
         menu.SetActive(false);
         menuLista.SetActive(true);
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void ShowHiddenMenu(){
-        bool isOpen = animator.GetBool("move");
+        isOpen = animator.GetBool("move");
         animator.SetBool("move", !isOpen);
+        if(!isOpen){
+            barra.SetActive(true);
+        }
+        else{
+            barra.SetActive(false);
+        }
     }
 
-    public void OnDrag(PointerEventData data){
-        newWidth = menuW.sizeDelta.x + data.delta.x;
-        newWidth = Mathf.Clamp(newWidth, minWidth, maxWidth);
-
-        menuW.sizeDelta = new Vector2(newWidth, menuW.sizeDelta.y);
+    public void ShowAndHiddeButtons(){
+        buttons[index].SetActive(false);
+        index = index + 1;
+        if(index >= maxButtons){
+            index = 0;
+        }
+        buttons[index].SetActive(true);
     }
 
-    public void OnEndDrag(PointerEventData data)
-    {
-        
-    }
 }
