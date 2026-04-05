@@ -14,6 +14,8 @@ public class UI_Canvas : MonoBehaviour
     public int index = 0;
     int maxButtons;
 
+    public JoystickVirtual joy;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -48,6 +50,10 @@ public class UI_Canvas : MonoBehaviour
             index = 0;
         }
         buttons[index].SetActive(true);
+    }
+
+    public void MovableJoystick(){
+        joy.reposition = !joy.reposition;
     }
 
 }
