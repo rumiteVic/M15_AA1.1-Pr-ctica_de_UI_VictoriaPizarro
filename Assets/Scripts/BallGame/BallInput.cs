@@ -10,6 +10,7 @@ public class BallInput : MonoBehaviour
     public InputSystem inputActions;
 
     BallController controller;
+    public Vector2 move;
     private void Start()
     {
         controller = GetComponent<BallController>();
@@ -18,7 +19,8 @@ public class BallInput : MonoBehaviour
     }
     void Update()
     {
-        controller.Move(inputActions.Player.Move.ReadValue<Vector2>());
+        move = inputActions.Player.Move.ReadValue<Vector2>();
+        controller.Move(move);
         if (inputActions.Player.Jump.WasPressedThisFrame())
         {
             controller.Jump();

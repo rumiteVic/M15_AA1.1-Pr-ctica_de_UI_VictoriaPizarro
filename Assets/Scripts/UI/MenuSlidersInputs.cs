@@ -5,8 +5,6 @@ public class MenuSlidersInputs : MonoBehaviour
 {
     public RectTransform menu;
     public Slider scaleSlid;
-
-    private Vector2 originalSize;
     float inputValue;
 
     public RectTransform safeZone;
@@ -17,42 +15,123 @@ public class MenuSlidersInputs : MonoBehaviour
     float safeX;
     float safeY;
 
+    public CameraInput cameraInput;
+    float sensibilityInput;
+    public Slider camSen;
+
     void Start()
     {
-        originalSize = menu.sizeDelta;
         inputValue = scaleSlid.value;
         oriSafSize = safeZone.sizeDelta;
         safeX = safeHor.value;
         safeY = safeVer.value;
+        camSen.value = sensibilityInput;
+        sensibilityInput = cameraInput.sensibility;
+        ApplyScale();
+        ApplySafeScale();
     }
 
+    //Scale
     public void OnSliderScale(float value){
-        inputValue = Mathf.Clamp(value, scaleSlid.minValue, scaleSlid.maxValue);
+        inputValue = value;
         ApplyScale();
     }
 
     public void IncreaseScale(float value){
         inputValue += value;
-        inputValue = Mathf.Clamp(inputValue, scaleSlid.minValue, scaleSlid.maxValue);
-        scaleSlid.value = inputValue;
         ApplyScale();
     }
 
     public void ApplyScale(){
-        menu.sizeDelta = originalSize * inputValue;
+        inputValue = Mathf.Clamp(inputValue, scaleSlid.minValue, scaleSlid.maxValue);
+        scaleSlid.value = inputValue;
+        menu.localScale = new Vector3(inputValue, inputValue, 1f);
     }
 
-    public OnSliderSafeHorizontal(float value){
-        safeX = Mathf.Clamp(value, safeHor.minValue, safeHor.maxValue);
+    public void ReadScale(string texto){
+        if(float.TryParse(texto, out float numero)){
+            inputValue = numero;
+            ApplyScale();
+        }
+        else{
+            return;
+        }
+    }
+
+    //Safe Zone Horizontal
+    public void OnSliderSafeHorizontal(float value){
+        safeX = value;
         ApplySafeScale();
     }
 
-    public OnSliderSafeVertical(float value){
-        safeY = Mathf.Clamp(value, safeVer.minValue, safeVer.maxValue);
+    public void IncreaseSafeHor(float value){
+        safeX += value;
         ApplySafeScale();
+    }
+
+    public void ReadSafeHor(string texto){
+        if(float.TryParse(texto, out float numero)){
+            safeX = numero;
+            ApplySafeScale();
+        }
+        else{
+            return;
+        }
     }
 
     public void ApplySafeScale(){
+        safeX = Mathf.Clamp(safeX, safeHor.minValue, safeHor.maxValue);
+        safeY = Mathf.Clamp(safeY, safeVer.minValue, safeVer.maxValue);
+        safeHor.value = safeX;
+        safeVer.value = safeY;
         safeZone.sizeDelta = new Vector2(oriSafSize.x * safeX, oriSafSize.y * safeY);
+    }
+
+    //Safe Zone Vertical
+    public void OnSliderSafeVertical(float value){
+        safeY = value;
+        ApplySafeScale();
+    }
+    
+    public void IncreaseSafeVer(float value){
+        safeY += value;
+        ApplySafeScale();
+    }
+
+    public void ReadSafeVer(string texto){
+        if(float.TryParse(texto, out float numero)){
+            safeY = numero;
+            ApplySafeScale();
+        }
+        else{
+            return;
+        }
+    }
+
+    //Sensibility camera
+    public void OnSliderSensibility(float value){
+        sensibilityInput = value;
+        ApplySensi();
+    }
+
+    public void OnIncreaseSensi(float value){
+        sensibilityInput += value;
+        ApplySensi();
+    }
+
+    public void ApplySensi(){
+        sensibilityInput = Mathf.Clamp(sensibilityInput, camSen.minValue, camSen.maxValue);
+        camSen.value = sensibilityInput;
+        cameraInput.sensibility = sensibilityInput;
+    }
+
+     public void ReadSensibility(string texto){
+        if(float.TryParse(texto, out float numero)){
+            sensibilityInput = numero;
+            ApplySensi();
+        }
+        else{
+            return;
+        }
     }
 }

@@ -12,7 +12,7 @@ public class CameraInput : MonoBehaviour
     CameraController controller;
 
     Vector2 look;
-    float speed = 0.3f;
+    public float sensibility = 0.3f;
 
     public RectTransform targetImage;
     public GameObject ballImage;
@@ -28,6 +28,8 @@ public class CameraInput : MonoBehaviour
     public Image ballUI;
     float maxAlpha = 1f;
     float semiAlpha = 0.5f;
+
+    public BallInput ballInput;
     void Start()
     {
         controller = GetComponent<CameraController>();
@@ -40,10 +42,13 @@ public class CameraInput : MonoBehaviour
     void Update()
     {
         Vector2 look = inputActions.Player.Look.ReadValue<Vector2>();
-        controller.Rotate(look.x * speed);
+        
+        if(ballInput.move.x == 0 && ballInput.move.y == 0){
+            controller.Rotate(look.x * sensibility);
+        }
 
         Vector2 zooming = inputActions.Player.Scroll.ReadValue<Vector2>();
-        controller.Zoom(zooming.y * speed);
+        controller.Zoom(zooming.y * sensibility);
 
         actualTarget = man.currentTarget;
 

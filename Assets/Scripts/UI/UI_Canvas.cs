@@ -14,12 +14,20 @@ public class UI_Canvas : MonoBehaviour
     public int index = 0;
     int maxButtons;
 
+    public GameObject joystick;
+
     public JoystickVirtual joy;
+
+    Vector3 positionJoystickInicial;
+
+    public GameObject botonIn;
+    public GameObject otherBoton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         maxButtons = buttons.Length;
+        positionJoystickInicial = joystick.transform.position;
     }
 
     public void ShowMenu(){
@@ -37,8 +45,14 @@ public class UI_Canvas : MonoBehaviour
         animator.SetBool("move", !isOpen);
         if(!isOpen){
             barra.SetActive(true);
+            otherBoton.SetActive(true);
+            botonIn.SetActive(false);
+            Time.timeScale = 0f;
         }
         else{
+            otherBoton.SetActive(false);
+            botonIn.SetActive(true);
+            Time.timeScale = 1f;
             barra.SetActive(false);
         }
     }
@@ -54,6 +68,7 @@ public class UI_Canvas : MonoBehaviour
 
     public void MovableJoystick(){
         joy.reposition = !joy.reposition;
+        joystick.transform.position = positionJoystickInicial;
     }
 
 }
