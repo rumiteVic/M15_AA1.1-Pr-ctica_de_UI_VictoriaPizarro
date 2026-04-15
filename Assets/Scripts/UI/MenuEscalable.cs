@@ -13,7 +13,7 @@ public class MenuEscalable : MonoBehaviour, IDragHandler
     {
         newWidth = menuW.sizeDelta.x;
     }
-
+    //Permite que se escale horizontalmente con la barra de al lado el menú
     public void OnDrag(PointerEventData data){
         newWidth = menuW.sizeDelta.x + data.delta.x;
         newWidth = Mathf.Clamp(newWidth, minWidth, maxWidth);

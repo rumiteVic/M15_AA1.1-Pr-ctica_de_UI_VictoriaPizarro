@@ -30,16 +30,19 @@ public class UI_Canvas : MonoBehaviour
         positionJoystickInicial = joystick.transform.position;
     }
 
+    //Pone visible el menu con sus parametros cambiables
     public void ShowMenu(){
         menu.SetActive(true);
         menuLista.SetActive(false);
     }
 
+    //Pone visible el menu con una lista de cosas borrables
     public void ShowListas(){
         menu.SetActive(false);
         menuLista.SetActive(true);
     }
-
+    //Pone visible el menu en si (con una animación) y pone el tiempo a 0
+    
     public void ShowHiddenMenu(){
         isOpen = animator.GetBool("move");
         animator.SetBool("move", !isOpen);
@@ -49,6 +52,7 @@ public class UI_Canvas : MonoBehaviour
             botonIn.SetActive(false);
             Time.timeScale = 0f;
         }
+        //Si está visible lo pone en "invisible"
         else{
             otherBoton.SetActive(false);
             botonIn.SetActive(true);
@@ -56,7 +60,7 @@ public class UI_Canvas : MonoBehaviour
             barra.SetActive(false);
         }
     }
-
+    //Permite cambiar entre la visibilidad de 3 botones (el que muestra el target, la bola y un punto intermedio)
     public void ShowAndHiddeButtons(){
         buttons[index].SetActive(false);
         index = index + 1;
@@ -66,6 +70,7 @@ public class UI_Canvas : MonoBehaviour
         buttons[index].SetActive(true);
     }
 
+    //Permite (o no) que se pueda mover el Joystick de su sitio
     public void MovableJoystick(){
         joy.reposition = !joy.reposition;
         joystick.transform.position = positionJoystickInicial;

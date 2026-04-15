@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class MenuSlidersInputs : MonoBehaviour
 {
     public RectTransform menu;
@@ -19,6 +19,11 @@ public class MenuSlidersInputs : MonoBehaviour
     float sensibilityInput;
     public Slider camSen;
 
+    public TMP_InputField inputScale;
+    public TMP_InputField inputHori;
+    public TMP_InputField inputVert;
+    public TMP_InputField inputSens;
+
     void Start()
     {
         inputValue = scaleSlid.value;
@@ -31,23 +36,27 @@ public class MenuSlidersInputs : MonoBehaviour
         ApplySafeScale();
     }
 
-    //Scale
+    //Slider del Scale
     public void OnSliderScale(float value){
         inputValue = value;
         ApplyScale();
     }
-
+    //Botones del scale se incrementa con el valor que le demos a value (en el propio boton, el inspector)
     public void IncreaseScale(float value){
         inputValue += value;
         ApplyScale();
     }
-
+    //Se aplica la escala teniendo de referencia los valores minimos y maximos del slider
+    //Luego se pasa ese valor al slider y se aplica la escala
+    //También se le pasa ese valor al inputText (de cada uno de ellos)
     public void ApplyScale(){
         inputValue = Mathf.Clamp(inputValue, scaleSlid.minValue, scaleSlid.maxValue);
         scaleSlid.value = inputValue;
         menu.localScale = new Vector3(inputValue, inputValue, 1f);
+        inputScale.text = inputValue.ToString();
     }
-
+    //Se lee el valor del inputText se pasa ese valor a un float, si se puede, se aplica
+    //Y si no, no se pone (en el resto se hace lo mismo pero cada uno con su valor y sus sliders, botones e inputsText)
     public void ReadScale(string texto){
         if(float.TryParse(texto, out float numero)){
             inputValue = numero;
@@ -85,6 +94,8 @@ public class MenuSlidersInputs : MonoBehaviour
         safeHor.value = safeX;
         safeVer.value = safeY;
         safeZone.sizeDelta = new Vector2(oriSafSize.x * safeX, oriSafSize.y * safeY);
+        inputHori.text = safeX.ToString();
+        inputVert.text = safeY.ToString();
     }
 
     //Safe Zone Vertical
@@ -123,6 +134,7 @@ public class MenuSlidersInputs : MonoBehaviour
         sensibilityInput = Mathf.Clamp(sensibilityInput, camSen.minValue, camSen.maxValue);
         camSen.value = sensibilityInput;
         cameraInput.sensibility = sensibilityInput;
+        inputSens.text = sensibilityInput.ToString();
     }
 
      public void ReadSensibility(string texto){
