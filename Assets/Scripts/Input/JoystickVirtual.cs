@@ -10,6 +10,7 @@ public class JoystickVirtual : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
 
     public Vector2 input;
 
+
     public bool reposition = false;
     public void OnBeginDrag(PointerEventData data)
     {
@@ -22,6 +23,8 @@ public class JoystickVirtual : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
         joystick.transform.position = data.position;
         joystickGhost.transform.position = data.position;
     }
+
+    
     public void OnDrag(PointerEventData data)
     {    
         Vector3 dir = (Vector3)data.position - joystickParent.position;
@@ -34,9 +37,11 @@ public class JoystickVirtual : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
         }
         joystick.transform.position = joystickParent.position + dir;
         joystickGhost.transform.position = data.position;
-
         input = dir / maxRadius;
     }
+
+
+
     public void OnEndDrag(PointerEventData data)
     {
         joystick.localPosition = Vector3.zero;

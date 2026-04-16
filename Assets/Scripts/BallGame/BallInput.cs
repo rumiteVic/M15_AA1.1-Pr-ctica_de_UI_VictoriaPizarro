@@ -11,6 +11,8 @@ public class BallInput : MonoBehaviour
 
     BallController controller;
     public Vector2 move;
+
+    public JoystickVirtual joy;
     private void Start()
     {
         controller = GetComponent<BallController>();
@@ -21,8 +23,18 @@ public class BallInput : MonoBehaviour
     {
         //Se lee el inputActions de Move (WASD y joystick)
         move = inputActions.Player.Move.ReadValue<Vector2>();
-        //Le pasamos el valor al ballController
-        controller.Move(move);
+        //Si no se mueve el joystick se permite moverse con wasd
+        if(joy.input.x == 0 || joy.input.y == 0)
+        {
+            controller.Move(move);
+        }
+        //Si se mueve el joystick se pasa este valor
+        else
+        {
+            controller.Move(joy.input);
+        }
+        
+        
         //Miramos si le da a la tecla de saltar y se envia a que salte en ballController
         if (inputActions.Player.Jump.WasPressedThisFrame())
         {

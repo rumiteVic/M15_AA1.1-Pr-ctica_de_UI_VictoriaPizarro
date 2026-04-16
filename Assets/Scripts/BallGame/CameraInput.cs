@@ -32,6 +32,7 @@ public class CameraInput : MonoBehaviour
     float offset = 50f;
 
     public BallInput ballInput;
+    public JoystickVirtual joy;
     void Start()
     {
         controller = GetComponent<CameraController>();
@@ -46,7 +47,8 @@ public class CameraInput : MonoBehaviour
         //Se lee el valor del raton moviendose o el dedo
         Vector2 look = inputActions.Player.Look.ReadValue<Vector2>();
         //Si no se mueve la pelota entonces podemos rotar la camara (se le pasa el valor al controlador)
-        if(ballInput.move.x == 0 && ballInput.move.y == 0){
+        if(ballInput.move.x == 0 && ballInput.move.y == 0 &&
+        joy.input.x == 0 && joy.input.y == 0){
             controller.Rotate(look.x * sensibility);
         }
         //Leemos el zoom del scroll del raton y se lo pasamos a la camara
